@@ -20,7 +20,7 @@ public class Main
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println(event.waiters());
+		System.out.println("first waiters: "+event.waiters());
 		try
 		{
 			Thread.sleep(2000);
