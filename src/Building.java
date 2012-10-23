@@ -14,7 +14,12 @@ public class Building
 		}
 	}
 	
-	public void callUp()
+	public void visitFloor()
+	{
+		
+	}
+	
+	public void callUp(int floor)
 	{
 		
 	}
@@ -24,7 +29,7 @@ public class Building
 		
 	}
 	
-	public void callDown()
+	public void callDown(int floor)
 	{
 		
 	}
