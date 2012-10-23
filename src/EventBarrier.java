@@ -1,8 +1,9 @@
 
 public class EventBarrier 
 {
-	private boolean signaled = false;
-	private int activeThreads = 0;
+	private volatile boolean signaled = false;
+	private volatile int activeThreads = 0;
+	private Object lockObject = new Object();
 	
 	public synchronized void hold()
 	{
@@ -35,7 +36,21 @@ public class EventBarrier
 			signaled = true;
 		}
 		
-		while(activeThreads != 0){};
+		synchronized(lockObject)
+		{
+			while(activeThreads != 0)
+			{
+				try
+				{
+					lockObject.wait();
+				} 
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public synchronized void complete()
@@ -45,6 +60,10 @@ public class EventBarrier
 		if(activeThreads == 0)
 		{
 			signaled = false;
+			synchronized(lockObject)
+			{
+				lockObject.notifyAll();
+			}
 		}
 		
 	}
