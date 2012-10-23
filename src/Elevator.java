@@ -18,7 +18,7 @@ public class Elevator implements Runnable
 		// call the corresponding building method for visited floor
 		//i think the buildings floor should take an argument for which floor we need to visit with this
 		//elevator
-		myBuilding.visitFloor(desiredFloor);
+//		myBuilding.visitFloor(desiredFloor);
 	}
 	
 	private void openDoor()
