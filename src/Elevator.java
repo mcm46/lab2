@@ -6,6 +6,7 @@ public class Elevator implements Runnable
 	private ArrayList<Person> listOfPeople = new ArrayList<Person>();
 	
 	private boolean doorOpened = false;
+	private boolean canEnter = true;
 	
 	public void VisitFloor()
 	{
@@ -22,10 +23,10 @@ public class Elevator implements Runnable
 		doorOpened = false;
 	}
 	
-	public void Enter()
+	public boolean Enter()
 
 	{
-	
+		return canEnter;
 	}
 	
 	public void Exit()
