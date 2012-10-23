@@ -1,9 +1,11 @@
-
 public class EventBarrier 
 {
 	private volatile boolean signaled = false;
 	private volatile int activeThreads = 0;
+<<<<<<< HEAD
 	private Object lockObject = new Object();
+=======
+>>>>>>> changed print statements
 	
 	public synchronized void hold()
 	{
@@ -35,6 +37,7 @@ public class EventBarrier
 			this.notifyAll();
 			signaled = true;
 		}
+<<<<<<< HEAD
 		
 		synchronized(lockObject)
 		{
@@ -50,13 +53,16 @@ public class EventBarrier
 					e.printStackTrace();
 				}
 			}
+=======
+		while(activeThreads!=0){
+
+>>>>>>> changed print statements
 		}
 	}
 	
 	public synchronized void complete()
 	{
 		activeThreads--;
-
 		if(activeThreads == 0)
 		{
 			signaled = false;
