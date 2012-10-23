@@ -3,40 +3,44 @@ import java.util.ArrayList;
 
 public class Elevator implements Runnable
 {
-	private ArrayList<Person> listOfPeople = new ArrayList<Person>();
-	
+	private static final int MAX_CAPACITY = 100;
+	private int currentFloor = 1;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
+	private boolean goingUp = true;
+	private Building myBuilding = new Building();
 	
-	public void VisitFloor()
+	
+	private void visitFloor()
 	{
-		
+		// call the corresponding building method for visited floor
 	}
 	
-	public void OpenDoors()
+	private void openDoor()
 	{
 		doorOpened = true;
 	}
 	
-	public void CloseDoors()
+	private void closeDoor()
 	{
 		doorOpened = false;
 	}
 	
-	public boolean Enter()
+	public boolean enter()
 
 	{
+		
 		return canEnter;
 	}
 	
-	public void Exit()
+	public void exit()
 	{
 		
 	}
 	
-	public void RequestFloor()
+	public void requestFloor(int floorNum)
 	{
-		
+		//called by the building
 	}
 	
 	
