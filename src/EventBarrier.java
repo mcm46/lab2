@@ -11,10 +11,10 @@ public class EventBarrier
 			return;
 		}
 		
-		activeThreads++;
 		//called by subscribing thread, wait until event is signaled
 		synchronized(this)
 		{
+			activeThreads++;
 			try
 			{
 				this.wait();
@@ -40,10 +40,14 @@ public class EventBarrier
 	
 	public void complete()
 	{
-		activeThreads--;
-		if(activeThreads == 0)
+		synchronized(this)
 		{
-			signaled = false;
+			activeThreads--;
+			
+			if(activeThreads == 0)
+			{
+				signaled = false;
+			}
 		}
 	}
 	
