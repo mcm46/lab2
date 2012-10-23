@@ -4,51 +4,49 @@ public class EventBarrier
 	private boolean signaled = false;
 	private int activeThreads = 0;
 	
-	public void hold()
+	public synchronized void hold()
 	{
 		if(signaled)
 		{
 			return;
 		}
-		
+
 		//called by subscribing thread, wait until event is signaled
-		synchronized(this)
+
+		activeThreads++;
+		try
 		{
-			activeThreads++;
-			try
-			{
-				this.wait();
-			} 
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.wait();
+		} 
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	}
 	
 	public void signal()
 	{
+		
 		synchronized(this)
 		{
 			this.notifyAll();
+			signaled = true;
 		}
-		signaled = true;
 		
 		while(activeThreads != 0){};
 	}
 	
-	public void complete()
+	public synchronized void complete()
 	{
-		synchronized(this)
+		activeThreads--;
+
+		if(activeThreads == 0)
 		{
-			activeThreads--;
-			
-			if(activeThreads == 0)
-			{
-				signaled = false;
-			}
+			signaled = false;
 		}
+		
 	}
 	
 	public int waiters()
