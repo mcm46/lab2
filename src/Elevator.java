@@ -4,16 +4,21 @@ import java.util.ArrayList;
 public class Elevator implements Runnable
 {
 	private static final int MAX_CAPACITY = 100;
+	private int currentCapacity = 0;
 	private int currentFloor = 1;
+	private int requestedFloor = 0;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
 	private boolean goingUp = true;
 	private Building myBuilding = new Building();
 	
 	
-	private void visitFloor()
+	private void visitFloor(int desiredFloor)
 	{
 		// call the corresponding building method for visited floor
+		//i think the buildings floor should take an argument for which floor we need to visit with this
+		//elevator
+//		myBuilding.visitFloor(desiredFloor);
 	}
 	
 	private void openDoor()
@@ -29,23 +34,40 @@ public class Elevator implements Runnable
 	public boolean enter()
 
 	{
+		openDoor();
+		if (Elevator.MAX_CAPACITY > currentCapacity)
+		{
+			canEnter = true;
+		}
+		else
+		{
+			closeDoor();
+			canEnter = false;
+		}
 		
 		return canEnter;
 	}
 	
 	public void exit()
 	{
-		
+		currentCapacity--;
 	}
 	
 	public void requestFloor(int floorNum)
 	{
-		//called by the building
+		requestedFloor = floorNum;
+		currentFloor = floorNum;
 	}
 	
 	
 	public void run()
 	{
+		visitFloor(requestedFloor);
+		//when elevator gets called --> ? some kind of event fires?
+		if (enter() && doorOpened)
+		{
+			currentCapacity++;
+		}
 		
 		
 	}
