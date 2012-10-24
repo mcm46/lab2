@@ -7,15 +7,22 @@ import building.Building;
 
 public class Elevator implements Runnable
 {
+	
 	private static final int MAX_CAPACITY = 100;
 	private int currentCapacity = 0;
 	private int currentFloor = 1;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
 	private boolean goingUp = true;
-	private Building myBuilding = new Building();
+	private Building myBuilding;
 	private Object lockObject = new Object();
 	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
+	
+	public Elevator (Building b)
+	{
+		myBuilding = b;
+	}
+	
 	
 	public boolean getDirection()
 	{
