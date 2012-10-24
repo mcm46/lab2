@@ -6,7 +6,6 @@ public class Elevator implements Runnable
 	private static final int MAX_CAPACITY = 100;
 	private int currentCapacity = 0;
 	private int currentFloor = 1;
-	private int requestedFloor = 0;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
 	private boolean goingUp = true;
@@ -14,13 +13,47 @@ public class Elevator implements Runnable
 	private Object lockObject = new Object();
 	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
 	
-	
-	private void visitFloor(int desiredFloor)
+	public boolean getDirection()
 	{
-		// call the corresponding building method for visited floor
-		//i think the buildings visitFloor should take an argument for which floor we need to visit with this
-		//elevator
-//		myBuilding.visitFloor(desiredFloor);
+		return goingUp;
+	}
+	
+	public int getCurrentFloor()
+	{
+		return currentFloor;
+	}
+	
+	
+	private void visitFloor()
+	{
+		synchronized(lockObject)
+		{
+			while (myRequests.size() == 0)
+			{
+				try
+				{
+					this.wait();
+				} 
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			try
+			{
+				Thread.sleep(5000);
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			
+			for (int i=0; i < myRequests.size() - 1; i++)
+			{
+				myBuilding.visitFloor(i);
+				currentFloor = i;
+			}
+		}
 	}
 	
 	private void openDoor()
@@ -35,7 +68,7 @@ public class Elevator implements Runnable
 		System.out.println("Door Closed!");
 	}
 	
-	public boolean enter()
+	public synchronized boolean enter()
 
 	{
 		openDoor();
@@ -53,34 +86,39 @@ public class Elevator implements Runnable
 		}
 		closeDoor();
 		
+		synchronized(lockObject)
+		{
+			lockObject.notifyAll();
+		}
+		
 		return canEnter;
 	}
 	
-	public void exit()
+	public synchronized void exit()
 	{
+		openDoor();
 		currentCapacity--;
+		System.out.println("Person Exited!");
+		closeDoor();
 	}
 	
-	public void requestFloor(int floorNum)
+	public synchronized void requestFloor(int floorNum)
 	{
-		requestedFloor = floorNum;
-		currentFloor = floorNum;
+		myRequests.add(floorNum);
+		if (floorNum > currentFloor)
+		{
+			goingUp = true;
+		}
+		else
+		{
+			goingUp = false;
+		}
 		
 	}
-	
-	public boolean getDirection()
-	{
-		return goingUp;
-	}
-	
-	public int getCurrentFloor()
-	{
-		return currentFloor;
-	}
+
 	
 	public void run()
 	{
-		visitFloor(requestedFloor);
-		
+		visitFloor();
 	}
 }
