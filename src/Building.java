@@ -4,6 +4,7 @@ public class Building
 	private static final int FLOORS = 5;
 	private static final int ELEVATORS = 1;
 	private Elevator[] myElevators = new Elevator[ELEVATORS];
+	private EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
 	
 	public Building()
 	{
@@ -14,28 +15,19 @@ public class Building
 		}
 	}
 	
-	public void visitFloor()
+	public void visitFloor(int floor)
 	{
 		
 	}
 	
-	public void callUp(int floor)
+	public Elevator callUp(int floor)
 	{
-		
+		return null;
 	}
 	
-	public void awaitUp()
-	{
-		
-	}
 	
-	public void callDown(int floor)
+	public Elevator callDown(int floor)
 	{
-		
-	}
-	
-	public void awaitDown()
-	{
-		
+		return null;
 	}
 }
