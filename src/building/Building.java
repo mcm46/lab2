@@ -49,22 +49,26 @@ public class Building
 			}
 		}
 		
-		//wait on the correct floors event
-			myEventBarriers[floor].hold();
-		
 		//if nothing matches that requirement call the closest one
 		if(distance == Integer.MAX_VALUE)
 		{
-			int index2 = 0;
 			for(int i = 0; i < ELEVATORS; i++)
 			{
-				if(floor - myElevators[i].getCurrentFloor() < distance)
+				int temp = floor - myElevators[i].getCurrentFloor();
+				
+				if(temp < distance)
 				{
-					index2 = i;
+					index = i;
+					distance = temp;
 				}
 			}
-			return myElevators[index2];
 		}
+		
+		myElevators[index].requestFloor(floor);
+		
+		//wait on the correct floors event
+		myEventBarriers[floor].hold();
+		
 		//otherwise call the one that was found
 		return myElevators[index];
 	}
@@ -95,24 +99,25 @@ public class Building
 					}
 				}
 				
-				//wait on the floors event than determine what to return
-					myEventBarriers[floor].hold();
-				
 				//if nothing matches that requirement call the closest one
 				if(distance == Integer.MAX_VALUE)
 				{
-					int index2 = 0;
 					for(int i = 0; i < ELEVATORS; i++)
 					{
-						int temp = floor - myElevators[i].getCurrentFloor();
+						int temp = myElevators[i].getCurrentFloor() - floor;
 						if(temp < distance)
 						{
+							index = i;
 							distance = temp;
-							index2 = i;
 						}
 					}
-					return myElevators[index2];
 				}
+				
+				myElevators[index].requestFloor(floor);
+				
+				//wait on the correct floors event
+				myEventBarriers[floor].hold();
+				
 				//otherwise call the one that was found
 				return myElevators[index];
 	}
