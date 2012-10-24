@@ -21,6 +21,7 @@ public class Building
 	
 	public void visitFloor(int floor)
 	{
+		System.out.println("Elevator visiting floor " + floor);
 		myEventBarriers[floor].signal();
 	}
 	
