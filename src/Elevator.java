@@ -39,16 +39,19 @@ public class Elevator implements Runnable
 
 	{
 		openDoor();
+		System.out.println("Person trying to enter...");
 		if (Elevator.MAX_CAPACITY > currentCapacity)
 		{
 			canEnter = true;
 			currentCapacity++;
+			System.out.println("Entered the elevator!");
 		}
 		else
 		{
-			closeDoor();
+			System.out.println("Elevator full!!");
 			canEnter = false;
 		}
+		closeDoor();
 		
 		return canEnter;
 	}
@@ -70,6 +73,10 @@ public class Elevator implements Runnable
 		return goingUp;
 	}
 	
+	public int getCurrentFloor()
+	{
+		return currentFloor;
+	}
 	
 	public void run()
 	{
