@@ -54,12 +54,12 @@ public class Person
 	}
 	
 
-	private void setNextFloor(int floor)
+	public void addNewFloor(int floor)
 	{
 		nextFloors.add(floor);
 	}
 	
-	public void getOnElevator(Elevator e)
+	private void getOnElevator(Elevator e)
 	{
 		if (!e.enter())
 		{
