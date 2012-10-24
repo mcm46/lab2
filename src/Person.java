@@ -15,6 +15,15 @@ public class Person
 	
 	public void run()
 	{
+		if (nextFloor<currentFloor)
+		{
+			Elevator e = myBuilding.callDown(currentFloor);
+		}
+		else
+		{
+			Elevator e = myBuilding.callUp(currentFloor);
+		}
+		
 	}
 	
 	public void setNextFloor()
