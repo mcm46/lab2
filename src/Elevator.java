@@ -11,12 +11,14 @@ public class Elevator implements Runnable
 	private boolean canEnter = true;
 	private boolean goingUp = true;
 	private Building myBuilding = new Building();
+	private Object lockObject = new Object();
+	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
 	
 	
 	private void visitFloor(int desiredFloor)
 	{
 		// call the corresponding building method for visited floor
-		//i think the buildings floor should take an argument for which floor we need to visit with this
+		//i think the buildings visitFloor should take an argument for which floor we need to visit with this
 		//elevator
 //		myBuilding.visitFloor(desiredFloor);
 	}
@@ -38,6 +40,7 @@ public class Elevator implements Runnable
 		if (Elevator.MAX_CAPACITY > currentCapacity)
 		{
 			canEnter = true;
+			currentCapacity++;
 		}
 		else
 		{
@@ -63,12 +66,6 @@ public class Elevator implements Runnable
 	public void run()
 	{
 		visitFloor(requestedFloor);
-		//when elevator gets called --> ? some kind of event fires?
-		if (enter() && doorOpened)
-		{
-			currentCapacity++;
-		}
-		
 		
 	}
 }
