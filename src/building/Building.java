@@ -14,8 +14,13 @@ public class Building
 	{
 		for(int i = 0; i < ELEVATORS; i++)
 		{
-			myElevators[i] = new Elevator();
+			myElevators[i] = new Elevator(this);
 			new Thread(myElevators[i]).start();
+		}
+		
+		for (int i=0; i < FLOORS; i++)
+		{
+			myEventBarriers[i] = new EventBarrier();
 		}
 	}
 	
@@ -45,15 +50,7 @@ public class Building
 		}
 		
 		//wait on the correct floors event
-		try
-		{
-			myEventBarriers[floor].wait();
-		} 
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			myEventBarriers[floor].hold();
 		
 		//if nothing matches that requirement call the closest one
 		if(distance == Integer.MAX_VALUE)
@@ -74,15 +71,8 @@ public class Building
 	
 	public void awaitUp(int floor)
 	{
-		try
-		{
-			myEventBarriers[floor].wait();
-		} 
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+			myEventBarriers[floor].hold();
 	}
 	
 	
@@ -106,15 +96,7 @@ public class Building
 				}
 				
 				//wait on the floors event than determine what to return
-				try
-				{
-					myEventBarriers[floor].wait();
-				} 
-				catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					myEventBarriers[floor].hold();
 				
 				//if nothing matches that requirement call the closest one
 				if(distance == Integer.MAX_VALUE)
@@ -137,14 +119,6 @@ public class Building
 	
 	public void awaitDown(int floor)
 	{
-		try
-		{
-			myEventBarriers[floor].wait();
-		} 
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			myEventBarriers[floor].hold();
 	}
 }

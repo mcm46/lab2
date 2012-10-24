@@ -12,7 +12,7 @@ public class Main
 	{
 		int numPeople=10;
 		Building building = new Building();
-		int nextFloor=1;
+		int nextFloor=0;
 		for (int i=0;i<numPeople;i++)
 		{
 			PriorityQueue<Integer> q = new PriorityQueue<Integer>();
