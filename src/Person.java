@@ -3,31 +3,37 @@ public class Person
 {
 	private int currentFloor;
 	private int nextFloor;
+	private Building myBuilding;
+	private Elevator myElevator;
 	
-	public Person(int currentFloor,int nextFloor)
+	public Person(int currentFloor,int nextFloor, Building building)
 	{
 		this.currentFloor=currentFloor;
 		this.nextFloor=nextFloor;
+		myBuilding= building;
 	}
 	
-	public void changeFloors()
+	public void run()
+	{
+		if (nextFloor<currentFloor)
+		{
+			Elevator e = myBuilding.callDown(currentFloor);
+		}
+		else
+		{
+			Elevator e = myBuilding.callUp(currentFloor);
+		}
+		
+	}
+	
+	public void setNextFloor()
 	{
 		
 	}
 	
-	private void enterElevator()
+	public void getOnElevator(Elevator elevator)
 	{
-		
-	}
-	
-	private void exitElevator()
-	{
-		
-	}
-	
-	private void requestFloor()
-	{
-		
+		myElevator=elevator;
 	}
 
 }
