@@ -43,7 +43,7 @@ public class Elevator implements Runnable
 			{
 				try
 				{
-					this.wait();
+					lockObject.wait();
 				} 
 				catch (InterruptedException e)
 				{
