@@ -7,7 +7,7 @@ import building.Building;
 import elevator.Elevator;
 
 
-public class Person
+public class Person implements Runnable
 {
 	private int currentFloor;
 	private Queue<Integer> nextFloors;
