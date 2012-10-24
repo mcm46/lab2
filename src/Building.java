@@ -22,12 +22,26 @@ public class Building
 	
 	public Elevator callUp(int floor)
 	{
-		return null;
+		//find the nearing elevator going up
+		for(int i = 0; i < myElevators.length; i++)
+		{
+			
+		}
+	}
+	
+	public void awaitUp()
+	{
+		
 	}
 	
 	
 	public Elevator callDown(int floor)
 	{
 		return null;
+	}
+	
+	public void awaitDown()
+	{
+		
 	}
 }
