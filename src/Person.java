@@ -6,22 +6,25 @@ public class Person
 	private Building myBuilding;
 	private Elevator myElevator;
 	
-	public Person(int currentFloor,int nextFloor, Building building,Elevator elevator)
+	public Person(int currentFloor,int nextFloor, Building building)
 	{
 		this.currentFloor=currentFloor;
 		this.nextFloor=nextFloor;
 		myBuilding= building;
-		myElevator=elevator;
 	}
 	
 	public void run()
 	{
-		
 	}
 	
 	public void setNextFloor()
 	{
 		
+	}
+	
+	public void getOnElevator(Elevator elevator)
+	{
+		myElevator=elevator;
 	}
 
 }
