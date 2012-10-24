@@ -1,4 +1,10 @@
+package people;
+
 import java.util.Queue;
+
+import building.Building;
+
+import elevator.Elevator;
 
 
 public class Person

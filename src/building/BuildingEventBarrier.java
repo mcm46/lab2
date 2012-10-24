@@ -1,3 +1,6 @@
+package building;
+import elevator.Elevator;
+
 
 public class BuildingEventBarrier 
 {
