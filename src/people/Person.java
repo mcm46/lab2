@@ -41,7 +41,7 @@ public class Person implements Runnable
 				e = myBuilding.callUp(currentFloor);
 			}
 			getOnElevator(e);
-			System.out.println("Passenger: " + passNo + " got on elevator");
+			
 			e.requestFloor(nextFloor);
 			System.out.println("Passenger: " + passNo + " requested floor");
 			if(down)
@@ -53,7 +53,7 @@ public class Person implements Runnable
 				myBuilding.awaitUp(nextFloor);
 			}
 			getOffElevator(e);
-			System.out.println("Passenger: " + passNo + " got off elevator");
+			
 			currentFloor=nextFloor;
 		}
 		
@@ -67,8 +67,10 @@ public class Person implements Runnable
 	
 	private void getOnElevator(Elevator e)
 	{
+		System.out.println("Passenger: " + passNo + " tried to get on elevator");
 		if (!e.enter())
 		{
+			System.out.println("Passenger: " + passNo + " couldn't get on elevator");
 			try
 			{
 				Thread.sleep(3000);
@@ -82,6 +84,7 @@ public class Person implements Runnable
 	
 	private void getOffElevator(Elevator e)
 	{
+		System.out.println("Passenger: " + passNo + " got off elevator");
 		e.exit();
 	}
 
