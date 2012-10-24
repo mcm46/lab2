@@ -25,11 +25,12 @@ public class Building
 		//find the nearing elevator going up
 		for(int i = 0; i < myElevators.length; i++)
 		{
-			
 		}
+		
+		return null;
 	}
 	
-	public void awaitUp()
+	public void awaitUp(int floor)
 	{
 		
 	}
@@ -40,7 +41,7 @@ public class Building
 		return null;
 	}
 	
-	public void awaitDown()
+	public void awaitDown(int floor)
 	{
 		
 	}
