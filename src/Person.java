@@ -4,7 +4,6 @@ public class Person
 	private int currentFloor;
 	private int nextFloor;
 	private Building myBuilding;
-	private Elevator myElevator;
 	
 	public Person(int currentFloor,int nextFloor, Building building)
 	{
@@ -15,25 +14,36 @@ public class Person
 	
 	public void run()
 	{
-		if (nextFloor<currentFloor)
+		boolean down=nextFloor<currentFloor;
+		Elevator e = null;
+		if (down)
 		{
-			Elevator e = myBuilding.callDown(currentFloor);
+			e = myBuilding.callDown(currentFloor);
 		}
 		else
 		{
-			Elevator e = myBuilding.callUp(currentFloor);
+			e = myBuilding.callUp(currentFloor);
 		}
+		getOnElevator(e);
+		e.requestFloor(nextFloor);
+		
+		
 		
 	}
 	
-	public void setNextFloor()
+	private void setCurrentFloor(int floor)
 	{
-		
+		currentFloor=floor;
 	}
 	
-	public void getOnElevator(Elevator elevator)
+	private void setNextFloor(int floor)
 	{
-		myElevator=elevator;
+		nextFloor=floor;
+	}
+	
+	public void getOnElevator(Elevator e)
+	{
+		e.enter();
 	}
 
 }
