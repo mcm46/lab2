@@ -26,11 +26,13 @@ public class Elevator implements Runnable
 	private void openDoor()
 	{
 		doorOpened = true;
+		System.out.println("Door Opened!");
 	}
 	
 	private void closeDoor()
 	{
 		doorOpened = false;
+		System.out.println("Door Closed!");
 	}
 	
 	public boolean enter()
@@ -60,6 +62,12 @@ public class Elevator implements Runnable
 	{
 		requestedFloor = floorNum;
 		currentFloor = floorNum;
+		
+	}
+	
+	public boolean getDirection()
+	{
+		return goingUp;
 	}
 	
 	
