@@ -37,32 +37,36 @@ public class Elevator implements Runnable
 	
 	private void visitFloor()
 	{
-		synchronized(lockObject)
+		while(true)
 		{
-			while (myRequests.size() == 0)
+			synchronized(lockObject)
 			{
+				while (myRequests.size() == 0)
+				{
+					try
+					{
+						lockObject.wait();
+					} 
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
 				try
 				{
-					lockObject.wait();
+					Thread.sleep(5000);
 				} 
 				catch (InterruptedException e)
 				{
 					e.printStackTrace();
 				}
-			}
-			try
-			{
-				Thread.sleep(5000);
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			
-			for (int i=0; i < myRequests.size() - 1; i++)
-			{
-				myBuilding.visitFloor(i);
-				currentFloor = i;
+
+				for (int i=0; i < myRequests.size(); i++)
+				{
+					myBuilding.visitFloor(myRequests.get(i));
+					currentFloor = i;
+					myRequests.remove(i);
+				}
 			}
 		}
 	}
@@ -97,11 +101,6 @@ public class Elevator implements Runnable
 		}
 		closeDoor();
 		
-		synchronized(lockObject)
-		{
-			lockObject.notifyAll();
-		}
-		
 		return canEnter;
 	}
 	
@@ -123,6 +122,11 @@ public class Elevator implements Runnable
 		else
 		{
 			goingUp = false;
+		}
+		
+		synchronized(lockObject)
+		{
+			lockObject.notifyAll();
 		}
 		
 	}

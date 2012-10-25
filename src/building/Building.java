@@ -54,7 +54,7 @@ public class Building
 		{
 			for(int i = 0; i < ELEVATORS; i++)
 			{
-				int temp = floor - myElevators[i].getCurrentFloor();
+				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
 				
 				if(temp < distance)
 				{
@@ -68,7 +68,7 @@ public class Building
 		
 		//wait on the correct floors event
 		myEventBarriers[floor].hold();
-		
+		myEventBarriers[floor].complete();
 		//otherwise call the one that was found
 		return myElevators[index];
 	}
@@ -77,6 +77,7 @@ public class Building
 	{
 
 			myEventBarriers[floor].hold();
+			myEventBarriers[floor].complete();
 	}
 	
 	
@@ -104,7 +105,7 @@ public class Building
 				{
 					for(int i = 0; i < ELEVATORS; i++)
 					{
-						int temp = myElevators[i].getCurrentFloor() - floor;
+						int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
 						if(temp < distance)
 						{
 							index = i;
@@ -117,7 +118,7 @@ public class Building
 				
 				//wait on the correct floors event
 				myEventBarriers[floor].hold();
-				
+				myEventBarriers[floor].complete();
 				//otherwise call the one that was found
 				return myElevators[index];
 	}
@@ -125,5 +126,6 @@ public class Building
 	public void awaitDown(int floor)
 	{
 			myEventBarriers[floor].hold();
+			myEventBarriers[floor].complete();
 	}
 }
