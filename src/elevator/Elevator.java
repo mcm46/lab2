@@ -63,6 +63,7 @@ public class Elevator implements Runnable
 
 				for (int i=0; i < myRequests.size(); i++)
 				{
+					System.out.println("Elevator calling the Building visitFloor()");
 					myBuilding.visitFloor(myRequests.get(i));
 					currentFloor = i;
 					myRequests.remove(i);
@@ -83,16 +84,16 @@ public class Elevator implements Runnable
 		System.out.println("Door Closed!");
 	}
 
-	public synchronized boolean enter()
+	public synchronized boolean enter(int passNumber)
 
 	{
 		openDoor();
-		System.out.println("Person trying to enter...");
+		System.out.println("Person" + passNumber + "trying to enter...");
 		if (Elevator.MAX_CAPACITY > currentCapacity)
 		{
 			canEnter = true;
 			currentCapacity++;
-			System.out.println("Entered the elevator!");
+			System.out.println("Person" + passNumber+ "entered the elevator!");
 		}
 		else
 		{
@@ -104,11 +105,11 @@ public class Elevator implements Runnable
 		return canEnter;
 	}
 
-	public synchronized void exit()
+	public synchronized void exit(int passNumber)
 	{
 		openDoor();
 		currentCapacity--;
-		System.out.println("Person Exited!");
+		System.out.println("Person" + passNumber +  "exited!");
 		closeDoor();
 	}
 
