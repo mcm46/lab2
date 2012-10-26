@@ -113,9 +113,10 @@ public class Elevator implements Runnable
 		closeDoor();
 	}
 
-	public synchronized void requestFloor(int floorNum)
+	public synchronized void requestFloor(int floorNum, int passNumber)
 	{
 		myRequests.add(floorNum);
+		System.out.println("Passenger: " + passNumber + " requested: " + floorNum);
 		if (floorNum > currentFloor)
 		{
 			goingUp = true;
