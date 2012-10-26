@@ -29,6 +29,11 @@ public class Building
 		System.out.println("Elevator visiting floor " + floor);
 		myEventBarriers[floor].signal();
 	}
+	
+	public void complete(int floor)
+	{
+		myEventBarriers[floor].complete();
+	}
 
 	public Elevator callUp(int floor)
 	{
@@ -68,7 +73,6 @@ public class Building
 
 		//wait on the correct floors event
 		myEventBarriers[floor].hold();
-		myEventBarriers[floor].complete();
 		//otherwise call the one that was found
 		return myElevators[index];
 	}
@@ -77,7 +81,6 @@ public class Building
 	{
 
 			myEventBarriers[floor].hold();
-			myEventBarriers[floor].complete();
 	}
 
 
@@ -118,7 +121,7 @@ public class Building
 
 				//wait on the correct floors event
 				myEventBarriers[floor].hold();
-				myEventBarriers[floor].complete();
+				
 				//otherwise call the one that was found
 				return myElevators[index];
 	}
@@ -126,6 +129,5 @@ public class Building
 	public void awaitDown(int floor)
 	{
 			myEventBarriers[floor].hold();
-			myEventBarriers[floor].complete();
 	}
 }
