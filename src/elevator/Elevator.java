@@ -88,12 +88,12 @@ public class Elevator implements Runnable
 
 	{
 		openDoor();
-		System.out.println("Person" + passNumber + "trying to enter...");
+		System.out.println("Person " + passNumber + " trying to enter...");
 		if (Elevator.MAX_CAPACITY > currentCapacity)
 		{
 			canEnter = true;
 			currentCapacity++;
-			System.out.println("Person" + passNumber+ "entered the elevator!");
+			System.out.println("Person " + passNumber+ " entered the elevator!");
 		}
 		else
 		{
@@ -109,7 +109,7 @@ public class Elevator implements Runnable
 	{
 		openDoor();
 		currentCapacity--;
-		System.out.println("Person" + passNumber +  "exited!");
+		System.out.println("Person " + passNumber +  " exited!");
 		closeDoor();
 	}
 
