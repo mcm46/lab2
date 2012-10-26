@@ -9,14 +9,14 @@ public class Elevator implements Runnable
 {
 	
 	private static final int MAX_CAPACITY = 100;
-	private volatile int currentCapacity = 0;
-	private volatile int currentFloor = 0;
-	private volatile boolean doorOpened = false;
-	private volatile boolean canEnter = true;
-	private volatile boolean goingUp = true;
+	private int currentCapacity = 0;
+	private int currentFloor = 0;
+	private boolean doorOpened = false;
+	private boolean canEnter = true;
+	private boolean goingUp = true;
 	private Building myBuilding;
 	private Object lockObject = new Object();
-	private volatile ArrayList<Integer> myRequests = new ArrayList<Integer>();
+	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
 	
 	public Elevator (Building b)
 	{
