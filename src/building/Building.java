@@ -64,7 +64,7 @@ public class Building
 			}
 		}
 
-		myElevators[index].requestFloor(floor);
+		myElevators[index].requestFloor(floor, -1);
 
 		//wait on the correct floors event
 		myEventBarriers[floor].hold();
@@ -114,7 +114,7 @@ public class Building
 					}
 				}
 
-				myElevators[index].requestFloor(floor);
+				myElevators[index].requestFloor(floor, -1);
 
 				//wait on the correct floors event
 				myEventBarriers[floor].hold();
