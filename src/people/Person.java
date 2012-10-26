@@ -40,7 +40,7 @@ public class Person implements Runnable
 			{
 				e = myBuilding.callUp(currentFloor);
 			}
-			getOnElevator(e);
+			getOnElevator(e,down);
 			
 			e.requestFloor(nextFloor);
 			System.out.println("Passenger: " + passNo + " requested floor");
@@ -65,7 +65,7 @@ public class Person implements Runnable
 		nextFloors.add(floor);
 	}
 	
-	private void getOnElevator(Elevator e)
+	private void getOnElevator(Elevator e,boolean down)
 	{
 		System.out.println("Passenger: " + passNo + " tried to get on elevator");
 		if (!e.enter())
@@ -78,6 +78,14 @@ public class Person implements Runnable
 			{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
+			if (down)
+			{
+				myBuilding.callDown(currentFloor);
+			}
+			else
+			{
+				myBuilding.callUp(currentFloor);
 			}
 		}
 	}
