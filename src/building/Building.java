@@ -7,8 +7,8 @@ public class Building
 {
 	private static final int FLOORS = 5;
 	private static final int ELEVATORS = 1;
-	private Elevator[] myElevators = new Elevator[ELEVATORS];
-	private EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
+	private volatile Elevator[] myElevators = new Elevator[ELEVATORS];
+	private volatile EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
 	
 	public Building()
 	{

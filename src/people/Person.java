@@ -9,10 +9,10 @@ import elevator.Elevator;
 
 public class Person implements Runnable
 {
-	private int currentFloor;
-	private Queue<Integer> nextFloors;
+	private volatile int currentFloor;
+	private volatile Queue<Integer> nextFloors;
 	private Building myBuilding;
-	private int passNo;
+	private volatile int passNo;
 	
 	public Person(int currentFloor,Queue<Integer> nextFloors, Building building, int passNo)
 	{
