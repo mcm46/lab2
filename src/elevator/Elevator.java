@@ -7,34 +7,34 @@ import building.Building;
 
 public class Elevator implements Runnable
 {
-	
+
 	private static final int MAX_CAPACITY = 100;
-	private volatile int currentCapacity = 0;
-	private volatile int currentFloor = 0;
-	private volatile boolean doorOpened = false;
-	private volatile boolean canEnter = true;
-	private volatile boolean goingUp = true;
+	private int currentCapacity = 0;
+	private int currentFloor = 1;
+	private boolean doorOpened = false;
+	private boolean canEnter = true;
+	private boolean goingUp = true;
 	private Building myBuilding;
 	private Object lockObject = new Object();
-	private volatile ArrayList<Integer> myRequests = new ArrayList<Integer>();
-	
+	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
+
 	public Elevator (Building b)
 	{
 		myBuilding = b;
 	}
-	
-	
+
+
 	public boolean getDirection()
 	{
 		return goingUp;
 	}
-	
+
 	public int getCurrentFloor()
 	{
 		return currentFloor;
 	}
-	
-	
+
+
 	private void visitFloor()
 	{
 		while(true)
@@ -54,7 +54,7 @@ public class Elevator implements Runnable
 				}
 				try
 				{
-					Thread.sleep(1000);
+					Thread.sleep(5000);
 				} 
 				catch (InterruptedException e)
 				{
@@ -70,19 +70,19 @@ public class Elevator implements Runnable
 			}
 		}
 	}
-	
+
 	private void openDoor()
 	{
 		doorOpened = true;
 		System.out.println("Door Opened!");
 	}
-	
+
 	private void closeDoor()
 	{
 		doorOpened = false;
 		System.out.println("Door Closed!");
 	}
-	
+
 	public synchronized boolean enter()
 
 	{
@@ -100,10 +100,10 @@ public class Elevator implements Runnable
 			canEnter = false;
 		}
 		closeDoor();
-		
+
 		return canEnter;
 	}
-	
+
 	public synchronized void exit()
 	{
 		openDoor();
@@ -111,7 +111,7 @@ public class Elevator implements Runnable
 		System.out.println("Person Exited!");
 		closeDoor();
 	}
-	
+
 	public synchronized void requestFloor(int floorNum)
 	{
 		myRequests.add(floorNum);
@@ -123,15 +123,15 @@ public class Elevator implements Runnable
 		{
 			goingUp = false;
 		}
-		
+
 		synchronized(lockObject)
 		{
 			lockObject.notifyAll();
 		}
-		
+
 	}
 
-	
+
 	public void run()
 	{
 		visitFloor();
