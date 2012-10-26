@@ -13,6 +13,7 @@ public class Person implements Runnable
 	private Queue<Integer> nextFloors;
 	private Building myBuilding;
 	private int passNo;
+
 	
 	public Person(int currentFloor,Queue<Integer> nextFloors, Building building, int passNo)
 	{
@@ -21,7 +22,7 @@ public class Person implements Runnable
 		myBuilding= building;
 		this.passNo=passNo;
 	}
-	
+
 	public void run()
 	{
 		System.out.println("New Person: "+passNo);
@@ -40,8 +41,8 @@ public class Person implements Runnable
 			{
 				e = myBuilding.callUp(currentFloor);
 			}
-			getOnElevator(e,down);
-			
+			getOnElevator(e);
+
 			e.requestFloor(nextFloor);
 			System.out.println("Passenger: " + passNo + " requested floor");
 			if(down)
@@ -53,19 +54,19 @@ public class Person implements Runnable
 				myBuilding.awaitUp(nextFloor);
 			}
 			getOffElevator(e);
-			
+
 			currentFloor=nextFloor;
 		}
-		
+
 	}
-	
+
 
 	public void addNewFloor(int floor)
 	{
 		nextFloors.add(floor);
 	}
-	
-	private void getOnElevator(Elevator e,boolean down)
+
+	private void getOnElevator(Elevator e)
 	{
 		System.out.println("Passenger: " + passNo + " tried to get on elevator");
 		if (!e.enter())
@@ -79,17 +80,9 @@ public class Person implements Runnable
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			if (down)
-			{
-				myBuilding.callDown(currentFloor);
-			}
-			else
-			{
-				myBuilding.callUp(currentFloor);
-			}
 		}
 	}
-	
+
 	private void getOffElevator(Elevator e)
 	{
 		System.out.println("Passenger: " + passNo + " got off elevator");

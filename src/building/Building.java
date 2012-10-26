@@ -9,7 +9,7 @@ public class Building
 	private static final int ELEVATORS = 1;
 	private Elevator[] myElevators = new Elevator[ELEVATORS];
 	private EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
-	
+
 	public Building()
 	{
 		for(int i = 0; i < ELEVATORS; i++)
@@ -17,19 +17,19 @@ public class Building
 			myElevators[i] = new Elevator(this);
 			new Thread(myElevators[i]).start();
 		}
-		
+
 		for (int i=0; i < FLOORS; i++)
 		{
 			myEventBarriers[i] = new EventBarrier();
 		}
 	}
-	
+
 	public void visitFloor(int floor)
 	{
 		System.out.println("Elevator visiting floor " + floor);
 		myEventBarriers[floor].signal();
 	}
-	
+
 	public Elevator callUp(int floor)
 	{
 		//find the nearing elevator going up
@@ -48,14 +48,14 @@ public class Building
 				}
 			}
 		}
-		
+
 		//if nothing matches that requirement call the closest one
 		if(distance == Integer.MAX_VALUE)
 		{
 			for(int i = 0; i < ELEVATORS; i++)
 			{
 				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
-				
+
 				if(temp < distance)
 				{
 					index = i;
@@ -63,24 +63,24 @@ public class Building
 				}
 			}
 		}
-		
+
 		myElevators[index].requestFloor(floor);
-		
+
 		//wait on the correct floors event
 		myEventBarriers[floor].hold();
 		myEventBarriers[floor].complete();
 		//otherwise call the one that was found
 		return myElevators[index];
 	}
-	
+
 	public void awaitUp(int floor)
 	{
 
 			myEventBarriers[floor].hold();
 			myEventBarriers[floor].complete();
 	}
-	
-	
+
+
 	public Elevator callDown(int floor)
 	{
 		//find the nearing elevator going up
@@ -99,7 +99,7 @@ public class Building
 						}
 					}
 				}
-				
+
 				//if nothing matches that requirement call the closest one
 				if(distance == Integer.MAX_VALUE)
 				{
@@ -113,16 +113,16 @@ public class Building
 						}
 					}
 				}
-				
+
 				myElevators[index].requestFloor(floor);
-				
+
 				//wait on the correct floors event
 				myEventBarriers[floor].hold();
 				myEventBarriers[floor].complete();
 				//otherwise call the one that was found
 				return myElevators[index];
 	}
-	
+
 	public void awaitDown(int floor)
 	{
 			myEventBarriers[floor].hold();
