@@ -1,6 +1,7 @@
 package elevator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import building.Building;
 
@@ -10,7 +11,7 @@ public class Elevator implements Runnable
 
 	private static final int MAX_CAPACITY = 100;
 	private int currentCapacity = 0;
-	private int currentFloor = 4;
+	private int currentFloor = 0;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
 	private boolean goingUp = true;
@@ -54,7 +55,7 @@ public class Elevator implements Runnable
 				}
 				try
 				{
-					Thread.sleep(5000);
+					Thread.sleep(1000);
 				} 
 				catch (InterruptedException e)
 				{
@@ -65,8 +66,10 @@ public class Elevator implements Runnable
 				{
 					System.out.println("Elevator calling the Building visitFloor()");
 					myBuilding.visitFloor(myRequests.get(i));
-					currentFloor = i;
-					myRequests.remove(i);
+					currentFloor = myRequests.get(i);
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					temp.add(myRequests.get(i));
+					myRequests.removeAll(temp);
 				}
 			}
 		}
