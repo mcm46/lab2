@@ -67,9 +67,8 @@ public class Person implements Runnable
 
 	private void getOnElevator(Elevator e,boolean down)
 	{
-		if (!e.enter())
+		if (!e.enter(passNo))
 		{
-			System.out.println("Passenger "+passNo+" failed to enter elevator :(");
 			try
 			{
 				Thread.sleep(3000);
@@ -87,13 +86,11 @@ public class Person implements Runnable
 				myBuilding.callUp(currentFloor);
 			}
 		}
-		System.out.println("Passenger "+passNo+" entered elevator :)");
 	}
 
 	private void getOffElevator(Elevator e)
 	{
-		System.out.println("Passenger: " + passNo + " got off elevator");
-		e.exit();
+		e.exit(passNo);
 	}
 
 }
