@@ -10,7 +10,7 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		int numPeople=4;
+		int numPeople=2;
 		Building building = new Building();
 		int nextFloor=1;
 		for (int i=0;i<numPeople;i++)

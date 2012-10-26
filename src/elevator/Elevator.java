@@ -1,6 +1,7 @@
 package elevator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import building.Building;
 
@@ -65,8 +66,10 @@ public class Elevator implements Runnable
 				{
 					System.out.println("Elevator calling the Building visitFloor()");
 					myBuilding.visitFloor(myRequests.get(i));
-					currentFloor = i;
-					myRequests.remove(i);
+					currentFloor = myRequests.get(i);
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					temp.add(myRequests.get(i));
+					myRequests.removeAll(temp);
 				}
 			}
 		}
