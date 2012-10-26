@@ -10,7 +10,7 @@ public class Elevator implements Runnable
 
 	private static final int MAX_CAPACITY = 100;
 	private int currentCapacity = 0;
-	private int currentFloor = 0;
+	private int currentFloor = 4;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
 	private boolean goingUp = true;
