@@ -42,6 +42,13 @@ public class Person implements Runnable
 			}
 			getOnElevator(e,down);
 			myBuilding.complete(currentFloor);
+			try
+			{
+				Thread.sleep(500);
+			} catch (InterruptedException e1)
+			{
+				e1.printStackTrace();
+			}
 			e.requestFloor(nextFloor,passNo);
 			if(down)
 			{
