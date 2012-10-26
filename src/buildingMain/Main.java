@@ -18,6 +18,7 @@ public class Main
 			PriorityQueue<Integer> q = new PriorityQueue<Integer>();
 			q.add(nextFloor);
 			q.add(2);
+			//q.add(3);
 			Person p = new Person(0,q,building, i);
 			Thread t = new Thread(p);
 			t.start();

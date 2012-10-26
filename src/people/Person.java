@@ -44,7 +44,7 @@ public class Person implements Runnable
 			myBuilding.complete(currentFloor);
 			try
 			{
-				Thread.sleep(500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e1)
 			{
 				e1.printStackTrace();
