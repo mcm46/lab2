@@ -42,8 +42,7 @@ public class Person implements Runnable
 			}
 			getOnElevator(e,down);
 
-			e.requestFloor(nextFloor);
-			System.out.println("Passenger: " + passNo + " requested floor " +nextFloor);
+			e.requestFloor(nextFloor,passNo);
 			if(down)
 			{
 				myBuilding.awaitDown(nextFloor);
