@@ -22,6 +22,7 @@ public class Person implements Runnable
 		this.passNo=passNo;
 	}
 
+	//person needs to try to get on again
 	public void run()
 	{
 		System.out.println("New Person: "+passNo);
@@ -40,15 +41,9 @@ public class Person implements Runnable
 			{
 				e = myBuilding.callUp(currentFloor);
 			}
-			getOnElevator(e,down);
+			getOnElevator(e,down, currentFloor);
 			myBuilding.complete(currentFloor);
-			try
-			{
-				Thread.sleep(500);
-			} catch (InterruptedException e1)
-			{
-				e1.printStackTrace();
-			}
+			
 			e.requestFloor(nextFloor,passNo);
 			if(down)
 			{
@@ -71,10 +66,12 @@ public class Person implements Runnable
 		nextFloors.add(floor);
 	}
 
-	private void getOnElevator(Elevator e,boolean down)
+	//people don't try to enter again if they fail the first time
+	private void getOnElevator(Elevator e,boolean down, int floor)
 	{
 		if (!e.enter(passNo))
 		{
+			myBuilding.complete(floor);
 			try
 			{
 				Thread.sleep(3000);
@@ -91,6 +88,7 @@ public class Person implements Runnable
 			{
 				myBuilding.callUp(currentFloor);
 			}
+			myBuilding.complete(floor);
 		}
 	}
 

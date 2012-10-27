@@ -9,7 +9,7 @@ import building.Building;
 public class Elevator implements Runnable
 {
 
-	private static final int MAX_CAPACITY = 100;
+	private static final int MAX_CAPACITY = 1;
 	private int currentCapacity = 0;
 	private int currentFloor = 0;
 	private boolean doorOpened = false;
@@ -53,6 +53,7 @@ public class Elevator implements Runnable
 						e.printStackTrace();
 					}
 				}
+			}
 				try
 				{
 					Thread.sleep(1000);
@@ -71,7 +72,6 @@ public class Elevator implements Runnable
 					temp.add(myRequests.get(i));
 					myRequests.removeAll(temp);
 				}
-			}
 		}
 	}
 
@@ -87,6 +87,7 @@ public class Elevator implements Runnable
 		System.out.println("Door Closed!");
 	}
 
+	//multi person bottleneck is here!
 	public synchronized boolean enter(int passNumber)
 
 	{
@@ -116,6 +117,7 @@ public class Elevator implements Runnable
 		closeDoor();
 	}
 
+	//notify all happens before the next wait up above? thus the upper piece waits for a notify that will never come?
 	public synchronized void requestFloor(int floorNum, int passNumber)
 	{
 		myRequests.add(floorNum);
@@ -129,6 +131,7 @@ public class Elevator implements Runnable
 			goingUp = false;
 		}
 
+		//top thing holds the lockObject, thus this can't return and the other threads can't enter
 		synchronized(lockObject)
 		{
 			lockObject.notifyAll();

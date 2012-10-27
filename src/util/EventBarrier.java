@@ -8,6 +8,8 @@ public class EventBarrier
 	
 	public synchronized void hold()
 	{
+		//would it be better to just not allow active threads to go below 0 down below?
+		activeThreads++;
 		if(signaled)
 		{
 			return;
@@ -15,7 +17,6 @@ public class EventBarrier
 
 		//called by subscribing thread, wait until event is signaled
 
-		activeThreads++;
 		try
 		{
 			this.wait();
@@ -29,8 +30,7 @@ public class EventBarrier
 	}
 	
 	public void signal()
-	{
-		
+	{		
 		synchronized(this)
 		{
 			this.notifyAll();

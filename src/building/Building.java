@@ -72,6 +72,7 @@ public class Building
 		myElevators[index].requestFloor(floor, -1);
 
 		//wait on the correct floors event
+		System.out.println("Passenger Waiting For Elevator to Floor " + floor + "!");
 		myEventBarriers[floor].hold();
 		//otherwise call the one that was found
 		return myElevators[index];
@@ -120,6 +121,7 @@ public class Building
 				myElevators[index].requestFloor(floor, -1);
 
 				//wait on the correct floors event
+				System.out.println("Passenger Waiting For Elevator to Floor " + floor + "!");
 				myEventBarriers[floor].hold();
 				
 				//otherwise call the one that was found
