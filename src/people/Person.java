@@ -43,7 +43,7 @@ public class Person implements Runnable
 			}
 			getOnElevator(e,down, currentFloor);
 			myBuilding.complete(currentFloor);
-			
+
 			e.requestFloor(nextFloor,passNo);
 			if(down)
 			{

@@ -68,6 +68,7 @@ public class Elevator implements Runnable
 					System.out.println("Elevator calling the Building visitFloor()");
 					myBuilding.visitFloor(myRequests.get(i));
 					currentFloor = myRequests.get(i);
+					//System.out.println("Elevator current floor: " + currentFloor);
 					ArrayList<Integer> temp = new ArrayList<Integer>();
 					temp.add(myRequests.get(i));
 					myRequests.removeAll(temp);
