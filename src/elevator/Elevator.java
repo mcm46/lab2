@@ -107,7 +107,7 @@ public class Elevator implements Runnable
 	{
 		openDoor();
 		System.out.println("Person " + passNumber + " trying to enter... Elevator  || " + myName + "|| ");
-		if (Elevator.MAX_CAPACITY > currentCapacity)
+		if (!isFull())
 		{
 			canEnter = true;
 			currentCapacity++;
@@ -151,6 +151,14 @@ public class Elevator implements Runnable
 			lockObject.notifyAll();
 		}
 
+	}
+	
+	public boolean isFull()
+	{
+		if (Elevator.MAX_CAPACITY > currentCapacity)
+			return false;
+		else
+			return true;
 	}
 
 
