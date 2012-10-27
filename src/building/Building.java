@@ -6,7 +6,7 @@ import util.EventBarrier;
 public class Building
 {
 	private static final int FLOORS = 5;
-	private static final int ELEVATORS = 1;
+	private static final int ELEVATORS = 3;
 	private Elevator[] myElevators = new Elevator[ELEVATORS];
 	private EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
 
@@ -72,7 +72,7 @@ public class Building
 		myElevators[index].requestFloor(floor, -1);
 
 		//wait on the correct floors event
-		System.out.println("Passenger Waiting For Elevator to Floor " + floor + "!");
+		System.out.println("Passenger Waiting For Elevator " + index + " to Floor " + floor + "!");
 		myEventBarriers[floor].hold();
 		//otherwise call the one that was found
 		return myElevators[index];
@@ -119,7 +119,7 @@ public class Building
 				}
 
 				myElevators[index].requestFloor(floor, -1);
-
+				System.out.println("Passenger Waiting For Elevator " + index + " to Floor " + floor + "!");
 				//wait on the correct floors event
 				System.out.println("Passenger Waiting For Elevator to Floor " + floor + "!");
 				myEventBarriers[floor].hold();

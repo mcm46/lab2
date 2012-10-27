@@ -58,8 +58,12 @@ public class EventBarrier
 	{
 		activeThreads--;
 
-		if(activeThreads == 0)
+		if(activeThreads <= 0)
 		{
+			if(activeThreads < 0)
+			{
+				activeThreads = 0;
+			}
 			signaled = false;
 			synchronized(lockObject)
 			{

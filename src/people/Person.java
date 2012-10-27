@@ -69,12 +69,12 @@ public class Person implements Runnable
 	//people don't try to enter again if they fail the first time
 	private void getOnElevator(Elevator e,boolean down, int floor)
 	{
-		if (!e.enter(passNo))
+		while(!e.enter(passNo))
 		{
 			myBuilding.complete(floor);
 			try
 			{
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e1)
 			{
 				// TODO Auto-generated catch block

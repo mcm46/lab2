@@ -114,7 +114,7 @@ public class Elevator implements Runnable
 	{
 		openDoor();
 		currentCapacity--;
-		System.out.println("Person " + passNumber +  " exited!");
+		System.out.println("Person " + passNumber +  " EXITED!");
 		closeDoor();
 	}
 
