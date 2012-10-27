@@ -2,6 +2,7 @@ package elevator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import building.Building;
 
@@ -11,17 +12,29 @@ public class Elevator implements Runnable
 
 	private static final int MAX_CAPACITY = 1;
 	private int currentCapacity = 0;
-	private int currentFloor = 0;
+	private int currentFloor;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
-	private boolean goingUp = true;
+	private boolean goingUp;
 	private Building myBuilding;
+	private int myName;
 	private Object lockObject = new Object();
 	private ArrayList<Integer> myRequests = new ArrayList<Integer>();
 
-	public Elevator (Building b)
+	public Elevator (Building b, int n, int floor)
 	{
 		myBuilding = b;
+		myName = n;
+		currentFloor = floor;
+		
+		Random rnd = new Random();
+		float r = rnd.nextFloat();
+		
+		if (r >= 0.5)
+			goingUp = true;
+		else
+			goingUp = false;
+		
 	}
 
 
@@ -65,7 +78,7 @@ public class Elevator implements Runnable
 
 				for (int i=0; i < myRequests.size(); i++)
 				{
-					System.out.println("Elevator calling the Building visitFloor()");
+					System.out.println("Elevator || " + myName + "|| calling the Building visitFloor()");
 					myBuilding.visitFloor(myRequests.get(i));
 					currentFloor = myRequests.get(i);
 					//System.out.println("Elevator current floor: " + currentFloor);
@@ -79,13 +92,13 @@ public class Elevator implements Runnable
 	private void openDoor()
 	{
 		doorOpened = true;
-		System.out.println("Door Opened!");
+		System.out.println("Elevator  || " + myName + "|| Door Opened!");
 	}
 
 	private void closeDoor()
 	{
 		doorOpened = false;
-		System.out.println("Door Closed!");
+		System.out.println("Elevator  || " + myName + "|| Door Closed!");
 	}
 
 	//multi person bottleneck is here!
@@ -93,16 +106,16 @@ public class Elevator implements Runnable
 
 	{
 		openDoor();
-		System.out.println("Person " + passNumber + " trying to enter...");
+		System.out.println("Person " + passNumber + " trying to enter... Elevator  || " + myName + "|| ");
 		if (Elevator.MAX_CAPACITY > currentCapacity)
 		{
 			canEnter = true;
 			currentCapacity++;
-			System.out.println("Person " + passNumber+ " entered the elevator!");
+			System.out.println("Person " + passNumber+ " entered the Elevator! || " + myName + "|| ");
 		}
 		else
 		{
-			System.out.println("Elevator full!!");
+			System.out.println("Elevator  || " + myName + "||  full!!");
 			canEnter = false;
 		}
 		closeDoor();
@@ -114,7 +127,7 @@ public class Elevator implements Runnable
 	{
 		openDoor();
 		currentCapacity--;
-		System.out.println("Person " + passNumber +  " EXITED!");
+		System.out.println("Person " + passNumber +  " EXITED! Elevator  || " + myName + "|| ");
 		closeDoor();
 	}
 
