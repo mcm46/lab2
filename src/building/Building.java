@@ -14,7 +14,8 @@ public class Building
 	{
 		for(int i = 0; i < ELEVATORS; i++)
 		{
-			myElevators[i] = new Elevator(this);
+			myElevators[i] = new Elevator(this, i, i);
+			System.out.println("Elevator " + i + " Starting At Floor " + i +".");
 			new Thread(myElevators[i]).start();
 		}
 
