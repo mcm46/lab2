@@ -101,7 +101,7 @@ public class Elevator implements Runnable
 		System.out.println("Elevator  || " + myName + "|| Door Closed!");
 	}
 
-	//multi person bottleneck is here!
+	
 	public synchronized boolean enter(int passNumber)
 
 	{

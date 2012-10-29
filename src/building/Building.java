@@ -44,7 +44,7 @@ public class Building
 		for(int i = 0; i < ELEVATORS; i++)
 		{
 			//get direction returns true if its going up
-			if(myElevators[i].getCurrentFloor() < floor && myElevators[i].getDirection())
+			if(myElevators[i].getCurrentFloor() <= floor && myElevators[i].getDirection() && !myElevators[i].isFull())
 			{
 				int temp = floor - myElevators[i].getCurrentFloor();
 				if(temp < distance)
@@ -62,7 +62,7 @@ public class Building
 			{
 				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
 
-				if(temp < distance)
+				if(temp < distance && !myElevators[i].isFull())
 				{
 					index = i;
 					distance = temp;
@@ -81,8 +81,7 @@ public class Building
 
 	public void awaitUp(int floor)
 	{
-
-			myEventBarriers[floor].hold();
+		myEventBarriers[floor].hold();
 	}
 
 
@@ -94,7 +93,7 @@ public class Building
 				for(int i = 0; i < ELEVATORS; i++)
 				{
 					//get direction returns true if its going up
-					if(myElevators[i].getCurrentFloor() > floor && !myElevators[i].getDirection())
+					if(myElevators[i].getCurrentFloor() >= floor && !myElevators[i].getDirection() && !myElevators[i].isFull())
 					{
 						int temp = myElevators[i].getCurrentFloor() - floor;
 						if(temp < distance)
@@ -111,7 +110,7 @@ public class Building
 					for(int i = 0; i < ELEVATORS; i++)
 					{
 						int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
-						if(temp < distance)
+						if(temp < distance && !myElevators[i].isFull())
 						{
 							index = i;
 							distance = temp;
