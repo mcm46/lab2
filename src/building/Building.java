@@ -1,14 +1,19 @@
 package building;
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import elevator.Elevator;
 import util.EventBarrier;
 
 
 public class Building
 {
-	private static final int FLOORS = 5;
-	private static final int ELEVATORS = 3;
+	private static final int FLOORS = 8;
+	private static final int ELEVATORS = 4;
 	private Elevator[] myElevators = new Elevator[ELEVATORS];
-	private EventBarrier[] myEventBarriers = new EventBarrier[FLOORS];
+	private Map<Integer, ArrayList<EventBarrier>> myEventBarriers = new HashMap<Integer, ArrayList<EventBarrier>>();
 
 	public Building()
 	{
@@ -21,30 +26,47 @@ public class Building
 
 		for (int i=0; i < FLOORS; i++)
 		{
-			myEventBarriers[i] = new EventBarrier();
+			myEventBarriers.put(i, new ArrayList<EventBarrier>());
+			for(int j = 0; j < ELEVATORS; j++)
+			{
+				myEventBarriers.get(i).add(new EventBarrier());
+			}
 		}
 	}
 
-	public void visitFloor(int floor)
+	public void visitFloor(int floor, Elevator elevator)
 	{
-		System.out.println("Elevator visiting floor " + floor);
-		myEventBarriers[floor].signal();
+		System.out.println("Elevator " + elevator.getName() + " visiting floor " + floor);
+		//takes awhile at the floor
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		myEventBarriers.get(floor).get(elevator.getName()).signal();
 	}
 	
-	public void complete(int floor)
+	public void complete(int floor, Elevator elevator)
 	{
-		myEventBarriers[floor].complete();
+		myEventBarriers.get(floor).get(elevator.getName()).complete();
 	}
 
-	public Elevator callUp(int floor)
+	public Elevator callUp(int floor, int person)
 	{
 		//find the nearing elevator going up
 		int distance = Integer.MAX_VALUE;
-		int index = 0;
+		int index = -1;
 		for(int i = 0; i < ELEVATORS; i++)
 		{
-			//get direction returns true if its going up
-			if(myElevators[i].getCurrentFloor() <= floor && myElevators[i].getDirection() && !myElevators[i].isFull())
+			if (myElevators[i].getDirection()==0 && myElevators[i].getCurrentFloor()==floor && !myElevators[i].isFull())
+			{
+				index=i;
+				break;
+			}
+			if (myElevators[i].getCurrentFloor() <= floor && myElevators[i].getDirection()==1 && !myElevators[i].isFull())
 			{
 				int temp = floor - myElevators[i].getCurrentFloor();
 				if(temp < distance)
@@ -53,83 +75,128 @@ public class Building
 					index = i;
 				}
 			}
+			
 		}
-
-		//if nothing matches that requirement call the closest one
-		if(distance == Integer.MAX_VALUE)
+		
+		if (index==-1)
 		{
-			for(int i = 0; i < ELEVATORS; i++)
+			for (int i=0;i<ELEVATORS;i++)
 			{
-				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
-
-				if(temp < distance && !myElevators[i].isFull())
+				if (myElevators[i].getDirection()==0 && !myElevators[i].isFull())
 				{
-					index = i;
-					distance = temp;
+					int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
+					if(temp < distance)
+					{
+						distance = temp;
+						index = i;
+					}
 				}
 			}
 		}
+		
+		if (index==-1)
+		{
+			for (int i=0;i<ELEVATORS;i++)
+			{
+
+				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
+				if(temp < distance)
+				{
+					distance = temp;
+					index = i;
+				}
+			
+			}
+		}
+
+		//if nothing matches that requirement call the closest one
+
 
 		myElevators[index].requestFloor(floor, -1);
+		
 
 		//wait on the correct floors event
-		System.out.println("Passenger Waiting For Elevator " + index + " to Floor " + floor + "!");
-		myEventBarriers[floor].hold();
+		System.out.println("Passenger " + person + " Waiting For Elevator " + index + " to Floor " + floor + "!");
+		myEventBarriers.get(floor).get(index).hold();
 		//otherwise call the one that was found
 		return myElevators[index];
 	}
 
-	public void awaitUp(int floor)
+	public void awaitUp(int floor, Elevator elevator)
 	{
-		myEventBarriers[floor].hold();
+		myEventBarriers.get(floor).get(elevator.getName()).hold();
 	}
 
 
-	public Elevator callDown(int floor)
+	public Elevator callDown(int floor, int person)
 	{
 		//find the nearing elevator going up
-				int distance = Integer.MAX_VALUE;
-				int index = 0;
-				for(int i = 0; i < ELEVATORS; i++)
+		int distance = Integer.MAX_VALUE;
+		int index = -1;
+		for(int i = 0; i < ELEVATORS; i++)
+		{
+			if (myElevators[i].getDirection()==0 && myElevators[i].getCurrentFloor()==floor && !myElevators[i].isFull())
+			{
+				index=i;
+				break;
+			}
+			if (myElevators[i].getCurrentFloor() >= floor && myElevators[i].getDirection()==-1 && !myElevators[i].isFull())
+			{
+				int temp = floor - myElevators[i].getCurrentFloor();
+				if(temp < distance)
 				{
-					//get direction returns true if its going up
-					if(myElevators[i].getCurrentFloor() >= floor && !myElevators[i].getDirection() && !myElevators[i].isFull())
+					distance = temp;
+					index = i;
+				}
+			}
+			
+		}
+		
+		if (index==-1)
+		{
+			for (int i=0;i<ELEVATORS;i++)
+			{
+				if (myElevators[i].getDirection()==0 && !myElevators[i].isFull())
+				{
+					int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
+					if(temp < distance)
 					{
-						int temp = myElevators[i].getCurrentFloor() - floor;
-						if(temp < distance)
-						{
-							distance = temp;
-							index = i;
-						}
+						distance = temp;
+						index = i;
 					}
 				}
+			}
+		}
+		
+		if (index==-1)
+		{
+			for (int i=0;i<ELEVATORS;i++)
+			{
 
-				//if nothing matches that requirement call the closest one
-				if(distance == Integer.MAX_VALUE)
+				int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
+				if(temp < distance)
 				{
-					for(int i = 0; i < ELEVATORS; i++)
-					{
-						int temp = Math.abs(floor - myElevators[i].getCurrentFloor());
-						if(temp < distance && !myElevators[i].isFull())
-						{
-							index = i;
-							distance = temp;
-						}
-					}
+					distance = temp;
+					index = i;
 				}
+			
+			}
+		}
 
-				myElevators[index].requestFloor(floor, -1);
-				System.out.println("Passenger Waiting For Elevator " + index + " to Floor " + floor + "!");
-				//wait on the correct floors event
-				System.out.println("Passenger Waiting For Elevator to Floor " + floor + "!");
-				myEventBarriers[floor].hold();
-				
-				//otherwise call the one that was found
-				return myElevators[index];
+		//if nothing matches that requirement call the closest one
+
+
+		myElevators[index].requestFloor(floor, -1);
+		
+
+		//wait on the correct floors event
+		System.out.println("Passenger " + person + " Waiting For Elevator " + index + " to Floor " + floor + "!");
+		myEventBarriers.get(floor).get(index).hold();
+		//otherwise call the one that was found
+		return myElevators[index];
 	}
-
-	public void awaitDown(int floor)
+	public void awaitDown(int floor, Elevator elevator)
 	{
-			myEventBarriers[floor].hold();
+		myEventBarriers.get(floor).get(elevator.getName()).hold();
 	}
 }

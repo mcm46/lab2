@@ -28,33 +28,47 @@ public class Person implements Runnable
 		System.out.println("New Person: "+passNo);
 		while(!nextFloors.isEmpty())
 		{
-			System.out.println("Passenger: " + passNo + " got to elevator");
+			System.out.println(nextFloors);
 			int nextFloor=nextFloors.poll();
 			boolean down=nextFloor<currentFloor;
 			Elevator e = null;
-			System.out.println("Passenger: " + passNo + " called elevator");
+			System.out.println("Passenger: " + passNo + " called elevator to floor " + currentFloor);
 			if (down)
 			{
-				e = myBuilding.callDown(currentFloor);
+				e = myBuilding.callDown(currentFloor, passNo);
 			}
 			else
 			{
-				e = myBuilding.callUp(currentFloor);
+				e = myBuilding.callUp(currentFloor, passNo);
 			}
+			//System.out.println("Person " + passNo + " returned elevator " + e.getName());
 			getOnElevator(e,down, currentFloor);
-			myBuilding.complete(currentFloor);
+			myBuilding.complete(currentFloor, e);
 
-			e.requestFloor(nextFloor,passNo);
-			if(down)
+			//returns false if the request 
+			if(e.requestFloor(nextFloor,passNo))
 			{
-				myBuilding.awaitDown(nextFloor);
+
+
+				if(down)
+				{
+					myBuilding.awaitDown(nextFloor, e);
+				}
+				else
+				{
+					myBuilding.awaitUp(nextFloor, e);
+				}
+				getOffElevator(e);
+				try
+				{
+					Thread.sleep(1500);
+				} catch (InterruptedException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-			else
-			{
-				myBuilding.awaitUp(nextFloor);
-			}
-			getOffElevator(e);
-			myBuilding.complete(nextFloor);
+			myBuilding.complete(nextFloor, e);
 			currentFloor=nextFloor;
 		}
 
@@ -71,7 +85,7 @@ public class Person implements Runnable
 	{
 		while(!e.enter(passNo))
 		{
-			myBuilding.complete(floor);
+			myBuilding.complete(floor, e);
 			try
 			{
 				Thread.sleep(100);
@@ -82,13 +96,13 @@ public class Person implements Runnable
 			}
 			if (down)
 			{
-				myBuilding.callDown(currentFloor);
+				e = myBuilding.callDown(currentFloor, passNo);
 			}
 			else
 			{
-				myBuilding.callUp(currentFloor);
+				e = myBuilding.callUp(currentFloor, passNo);
 			}
-			myBuilding.complete(floor);
+			myBuilding.complete(floor, e);
 		}
 	}
 

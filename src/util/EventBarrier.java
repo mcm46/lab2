@@ -1,5 +1,7 @@
 package util;
 
+import elevator.Elevator;
+
 public class EventBarrier 
 {
 	private volatile boolean signaled = false;
@@ -26,6 +28,7 @@ public class EventBarrier
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 	}
 	

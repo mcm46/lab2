@@ -1,6 +1,10 @@
 package buildingMain;
 
+import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Queue;
+
+import javax.management.Query;
 
 import people.Person;
 
@@ -10,21 +14,26 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		int numPeople=4;
+
+		int numPeople=3;
 		Building building = new Building();
-		int nextFloor=1;
+		int startFloor= 2;
+
 		for (int i=0;i<numPeople;i++)
 		{
-			PriorityQueue<Integer> q = new PriorityQueue<Integer>();
-			q.add(nextFloor);
-			Person p = new Person(0,q,building, i);
+			Queue<Integer> q = new LinkedList<Integer>();
+
+			q.add(startFloor+1);
+			q.add(startFloor-1);
+			q.add(startFloor+2);
+			q.add(startFloor-2);
+			
+			Person p = new Person(startFloor,q,building, i);
 			Thread t = new Thread(p);
 			t.start();
-			if (i%2==0)
-			{
-				nextFloor++;
-			}
+			startFloor++;
 		}
-
+		
 	}
 }
+

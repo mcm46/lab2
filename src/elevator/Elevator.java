@@ -10,12 +10,13 @@ import building.Building;
 public class Elevator implements Runnable
 {
 
-	private static final int MAX_CAPACITY = 1;
+	private static final int MAX_CAPACITY = 2;
 	private int currentCapacity = 0;
 	private int currentFloor;
 	private boolean doorOpened = false;
 	private boolean canEnter = true;
-	private boolean goingUp;
+	//0 stationary, 1 up, -1 down
+	private int direction = 0;
 	private Building myBuilding;
 	private int myName;
 	private Object lockObject = new Object();
@@ -30,22 +31,22 @@ public class Elevator implements Runnable
 		Random rnd = new Random();
 		float r = rnd.nextFloat();
 		
-		if (r >= 0.5)
-			goingUp = true;
-		else
-			goingUp = false;
-		
 	}
 
 
-	public boolean getDirection()
+	public int getDirection()
 	{
-		return goingUp;
+		return direction;
 	}
 
 	public int getCurrentFloor()
 	{
 		return currentFloor;
+	}
+	
+	public int getName()
+	{
+		return myName;
 	}
 
 
@@ -59,6 +60,7 @@ public class Elevator implements Runnable
 				{
 					try
 					{
+						direction = 0;
 						lockObject.wait();
 					} 
 					catch (InterruptedException e)
@@ -79,7 +81,15 @@ public class Elevator implements Runnable
 				for (int i=0; i < myRequests.size(); i++)
 				{
 					System.out.println("Elevator || " + myName + "|| calling the Building visitFloor()");
-					myBuilding.visitFloor(myRequests.get(i));
+					if(currentFloor < myRequests.get(i))
+					{
+						direction = 1;
+					}
+					else
+					{
+						direction = -1;
+					}
+					myBuilding.visitFloor(myRequests.get(i), this);
 					currentFloor = myRequests.get(i);
 					//System.out.println("Elevator current floor: " + currentFloor);
 					ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -131,25 +141,26 @@ public class Elevator implements Runnable
 		closeDoor();
 	}
 
-	//notify all happens before the next wait up above? thus the upper piece waits for a notify that will never come?
-	public synchronized void requestFloor(int floorNum, int passNumber)
+	public synchronized boolean requestFloor(int floorNum, int passNumber)
 	{
+		//if you request the floor your on...
+		if(floorNum == currentFloor && passNumber != -1)
+		{
+			//to keep everything the same
+			currentCapacity++;
+			exit(passNumber);
+			return false;
+		}
 		myRequests.add(floorNum);
 		System.out.println("Passenger: " + passNumber + " requested: " + floorNum);
-		if (floorNum > currentFloor)
-		{
-			goingUp = true;
-		}
-		else
-		{
-			goingUp = false;
-		}
 
-		//top thing holds the lockObject, thus this can't return and the other threads can't enter
+		
 		synchronized(lockObject)
 		{
 			lockObject.notifyAll();
 		}
+		
+		return true;
 
 	}
 	
