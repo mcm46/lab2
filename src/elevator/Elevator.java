@@ -10,7 +10,7 @@ import building.Building;
 public class Elevator implements Runnable
 {
 
-	private static final int MAX_CAPACITY = 2;
+	private static final int MAX_CAPACITY = 1;
 	private int currentCapacity = 0;
 	private int currentFloor;
 	private boolean doorOpened = false;
@@ -80,7 +80,6 @@ public class Elevator implements Runnable
 
 				for (int i=0; i < myRequests.size(); i++)
 				{
-					System.out.println("Elevator || " + myName + "|| calling the Building visitFloor()");
 					if(currentFloor < myRequests.get(i))
 					{
 						direction = 1;
@@ -89,8 +88,8 @@ public class Elevator implements Runnable
 					{
 						direction = -1;
 					}
-					myBuilding.visitFloor(myRequests.get(i), this);
 					currentFloor = myRequests.get(i);
+					myBuilding.visitFloor(currentFloor, this);
 					//System.out.println("Elevator current floor: " + currentFloor);
 					ArrayList<Integer> temp = new ArrayList<Integer>();
 					temp.add(myRequests.get(i));
@@ -102,13 +101,13 @@ public class Elevator implements Runnable
 	private void openDoor()
 	{
 		doorOpened = true;
-		System.out.println("Elevator  || " + myName + "|| Door Opened!");
+		System.out.println("Elevator  || " + myName + " || Door Opened!");
 	}
 
 	private void closeDoor()
 	{
 		doorOpened = false;
-		System.out.println("Elevator  || " + myName + "|| Door Closed!");
+		System.out.println("Elevator  || " + myName + " || Door Closed!");
 	}
 
 	
@@ -116,12 +115,12 @@ public class Elevator implements Runnable
 
 	{
 		openDoor();
-		System.out.println("Person " + passNumber + " trying to enter... Elevator  || " + myName + "|| ");
+		System.out.println("Person " + passNumber + " trying to enter... Elevator  || " + myName + " || ");
 		if (!isFull())
 		{
 			canEnter = true;
 			currentCapacity++;
-			System.out.println("Person " + passNumber+ " entered the Elevator! || " + myName + "|| ");
+			System.out.println("Person " + passNumber+ " entered the Elevator! || " + myName + " || ");
 		}
 		else
 		{
@@ -137,7 +136,7 @@ public class Elevator implements Runnable
 	{
 		openDoor();
 		currentCapacity--;
-		System.out.println("Person " + passNumber +  " EXITED! Elevator  || " + myName + "|| ");
+		System.out.println("Person " + passNumber +  " EXITED! Elevator  || " + myName + " || at floor " + currentFloor);
 		closeDoor();
 	}
 
@@ -152,8 +151,10 @@ public class Elevator implements Runnable
 			return false;
 		}
 		myRequests.add(floorNum);
-		System.out.println("Passenger: " + passNumber + " requested: " + floorNum);
-
+		if(passNumber != -1)
+		{
+			System.out.println("Passenger: " + passNumber + " requested: " + floorNum);
+		}
 		
 		synchronized(lockObject)
 		{

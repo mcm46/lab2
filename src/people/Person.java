@@ -28,7 +28,6 @@ public class Person implements Runnable
 		System.out.println("New Person: "+passNo);
 		while(!nextFloors.isEmpty())
 		{
-			System.out.println(nextFloors);
 			int nextFloor=nextFloors.poll();
 			boolean down=nextFloor<currentFloor;
 			Elevator e = null;
