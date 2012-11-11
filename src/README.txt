@@ -31,22 +31,23 @@ Elevator.log #The name of the log file you generate should be Elevator.log.
 # Implementation details
 ####################################
 
-For testing purposes run Main.java and for now the output will be printed straight to the console. We are still working
-on implementing the Elevator.log file. But we figured this should do for the initial submission. In Main() you can modify
-the number of elevators, or people in the building for testing purposes. However as it is set up right now, the building
-cannot have more elevators than it has floors (which also makes sense if you think about it).
+For testing purposes run Main.java and the output will be printed straight to the console. To change the number of floors or the number of elevators
+change the fields at the top of the Building class. The people that use these elevators take a queue with the floors that they will request. This is set
+up in Main.java.
 
-For our design choice, we used a lockObject to lock on instead of implementing a busy wait.
+For our design choice, we used a lockObject to lock on instead of implementing a busy wait. This was done in both the EventBarrier
+and the Elevator class. We also decided to have the callUp and callDown methods of the Building class return the elevator that was assigned. This
+made it very simple for the person waiting to enter the elevator since it was given the instance once the method returned.
 
 
 ####################################
 # Feedback on the lab
 ####################################
 
-The lab was a lot more fun than the last one, although it was a pain to debug.
+The lab was a lot more fun than the last one, although it was a pain to debug. In the end we do feel that we know a lot more
+about concurrency than we did previously.
 
 ##################################
 # Additional comments
 ##################################
 
-We feel like we should get some bonus points because our implementation is 99% done and its only Friday! :)
